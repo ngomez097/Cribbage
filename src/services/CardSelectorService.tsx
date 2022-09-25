@@ -104,9 +104,8 @@ class CardSelectorService {
     let cards_number: number[] = [];
     let points = 0;
 
-    for (const card of cards) {
-      cards_number.push(card.number > 10 ? 10 : card.number);
-    }
+    cards_number.push(...cards.map(this.getCardNumberFifteen));
+
     cards_number = cards_number.sort((a, b) => b - a);
     this.debug && console.log(cards_number);
 
@@ -131,7 +130,7 @@ class CardSelectorService {
     let stair_path = "";
 
     for (const card of cards) {
-      cards_number.push(card.number > 10 ? 10 : card.number);
+      cards_number.push(card.number);
     }
     cards_number = cards_number.sort((a, b) => a - b);
     const cards_count_map = new Map();
@@ -168,10 +167,12 @@ class CardSelectorService {
     let plays: CardModel[][] = [];
 
     for (const card of cards) {
-      cards_number.push(card.number > 10 ? 10 : card.number);
+      cards_number.push(card.number);
     }
+    console.log(cards_number);
     cards_number = cards_number.sort((a, b) => a - b);
     this.debug && console.log(cards_number);
+
     cards_number = [...new Set(cards_number).values()];
 
     const cards_count_map: Map<number, CardModel[]> = new Map();
@@ -226,7 +227,6 @@ class CardSelectorService {
         }
       }
     }
-    console.log(plays);
 
     return plays;
   }

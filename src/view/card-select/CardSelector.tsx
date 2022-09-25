@@ -23,39 +23,43 @@ export function CardSelector() {
     }
 
     if (selectedCards.length == 5) {
-      clearSelectedCards()
+      clearSelectedCards();
     }
-    
+
     selectedCards.push(card);
     setSelectedCards([...selectedCards]);
-    
+
     // Calcular las jugadas
-    if(selectedCards.length == 5) {
+    if (selectedCards.length == 5) {
       // setPoints(CardSelectorService.getPoints(selectedCards))
-      setPairs(pairs = CardSelectorService.getPairCards(selectedCards))
-      setFifteenPlays(fifteenPlays = CardSelectorService.getFifteensCards(selectedCards))
-      setStairPlays(stairPlays = CardSelectorService.getStairCardsPlays(selectedCards))
+      setPairs((pairs = CardSelectorService.getPairCards(selectedCards)));
+      setFifteenPlays(
+        (fifteenPlays = CardSelectorService.getFifteensCards(selectedCards))
+      );
+      setStairPlays(
+        (stairPlays = CardSelectorService.getStairCardsPlays(selectedCards))
+      );
 
-      pointsPair = pairs.reduce((prev) => prev + 2, 0)
-      pointsFifteen = fifteenPlays.reduce((prev) => prev + 2, 0)
-      pointsStair = stairPlays.reduce((prev, play) => prev + play.length, 0)
+      pointsPair = pairs.reduce((prev) => prev + 2, 0);
+      pointsFifteen = fifteenPlays.reduce((prev) => prev + 2, 0);
+      pointsStair = stairPlays.reduce((prev, play) => prev + play.length, 0);
 
-      setPointsPair(pointsPair)
-      setPointsFifteen(pointsFifteen)
-      setPointsStair(pointsStair)
-      setPoints(pointsPair + pointsFifteen + pointsStair)
+      setPointsPair(pointsPair);
+      setPointsFifteen(pointsFifteen);
+      setPointsStair(pointsStair);
+      setPoints(pointsPair + pointsFifteen + pointsStair);
     }
   };
 
   const clearPoints = () => {
-    setPoints(0)
-    setPointsPair(0)
-    setPointsFifteen(0)
-    setPointsStair(0)
-    setPairs([])
-    setFifteenPlays([])
-    setStairPlays([])
-  }
+    setPoints(0);
+    setPointsPair(0);
+    setPointsFifteen(0);
+    setPointsStair(0);
+    setPairs([]);
+    setFifteenPlays([]);
+    setStairPlays([]);
+  };
 
   const removeCard = (card: CardModel) => {
     const index = selectedCards.findIndex(card.equal.bind(card));
@@ -63,7 +67,7 @@ export function CardSelector() {
 
     selectedCards.splice(index, 1);
     setSelectedCards([...selectedCards]);
-    clearPoints()
+    clearPoints();
   };
 
   const isCardSelected = (card: CardModel) => {
@@ -71,10 +75,10 @@ export function CardSelector() {
   };
 
   const clearSelectedCards = () => {
-    selectedCards = []
+    selectedCards = [];
     setSelectedCards(selectedCards);
     clearPoints();
-  }
+  };
 
   return (
     <>
@@ -82,7 +86,10 @@ export function CardSelector() {
       <div className={`${style.game_container}`}>
         {/* Cartas seleccionadas */}
         <div>
-          <h3>Cartas Seleccionadas <button onClick={clearSelectedCards}>Borrar</button></h3>
+          <h3>
+            Cartas Seleccionadas
+            <button onClick={clearSelectedCards}>Borrar</button>
+          </h3>
           <div className={`${style.selected_card_container}`}>
             {selectedCards.map((card: CardModel) => (
               <span onClick={() => removeCard(card)}>
@@ -94,44 +101,60 @@ export function CardSelector() {
 
         {/* Resultado */}
         <div>
-            <h2>Puntos: {points}</h2>
-            <div className={style.plays_container}>
-              <span>
-                <h4>Pares = {pointsPair}</h4>
-                <div className={style.pairs_container}>
-                  {pairs.map(([card1, card2]) => 
-                    <span className="d-flex gap-1">
-                      <Card number={card1.number} type={card1.type} fontSize={15}/>
-                      <Card number={card2.number} type={card2.type} fontSize={15}/>
-                    </span>
-                  )}
-                </div>
-              </span>
-              <span>
-                <h4>Quince = {pointsFifteen}</h4>
-                <div className={style.pairs_container}>
-                  {fifteenPlays.map((cards) => 
-                    <span className="d-flex gap-1">
-                      {cards.map(card =>
-                        <Card number={card.number} type={card.type} fontSize={15}/>
-                      )}
-                    </span>
-                  )}
-                </div>
-              </span>
-              <span>
-                <h4>Escalera = {pointsStair}</h4>
-                <div className={style.pairs_container}>
-                  {stairPlays.map((cards) => 
-                    <span className="d-flex gap-1">
-                      {cards.map(card =>
-                        <Card number={card.number} type={card.type} fontSize={15}/>
-                      )}
-                    </span>
-                  )}
-                </div>
-              </span>
-            </div>
+          <h2>Puntos: {points}</h2>
+          <div className={style.plays_container}>
+            <span>
+              <h4>Pares = {pointsPair}</h4>
+              <div className={style.pairs_container}>
+                {pairs.map(([card1, card2]) => (
+                  <span className="d-flex gap-1">
+                    <Card
+                      number={card1.number}
+                      type={card1.type}
+                      fontSize={15}
+                    />
+                    <Card
+                      number={card2.number}
+                      type={card2.type}
+                      fontSize={15}
+                    />
+                  </span>
+                ))}
+              </div>
+            </span>
+            <span>
+              <h4>Quince = {pointsFifteen}</h4>
+              <div className={style.pairs_container}>
+                {fifteenPlays.map((cards) => (
+                  <span className="d-flex gap-1">
+                    {cards.map((card) => (
+                      <Card
+                        number={card.number}
+                        type={card.type}
+                        fontSize={15}
+                      />
+                    ))}
+                  </span>
+                ))}
+              </div>
+            </span>
+            <span>
+              <h4>Escalera = {pointsStair}</h4>
+              <div className={style.pairs_container}>
+                {stairPlays.map((cards) => (
+                  <span className="d-flex gap-1">
+                    {cards.map((card) => (
+                      <Card
+                        number={card.number}
+                        type={card.type}
+                        fontSize={15}
+                      />
+                    ))}
+                  </span>
+                ))}
+              </div>
+            </span>
+          </div>
         </div>
       </div>
 
